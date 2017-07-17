@@ -1,12 +1,3 @@
-
-arduino/src/main/pb.h
-arduino/src/main/pb_common.c
-arduino/src/main/pb_common.h
-arduino/src/main/pb_decode.c
-arduino/src/main/pb_decode.h
-arduino/src/main/pb_encode.c
-arduino/src/main/pb_encode.h
-arduino/src/main/status.pb.c
-arduino/src/main/status.pb.h
 sisyphus/python/status_pb2.py
 sisyphus/python/status_pb2.pyc
+arduino/lib/nanopb
