@@ -1,30 +1,30 @@
-#         RASPI
-#  1   3V3 xx 5V
-#  2   SDA xx 5V
-#  3   SCL xx GND
-#  4       xx TX   Serial Com Arduino
-#  5       xx RX   Serial Com Arduino
-#  6       xx MISO ISP Arduino
-#  7       xx GND
-#  8       xx MOSI ISP Arduino
-#  9   3V3 xx SCK  ISP Arduino
-# 10  MOSI xx GND
-# 11  MISO xx
-# 12  CLK  xx
-# 13   GND xx
-# 14    NC xx NC
-# 15       xx GND
-# 16       xx RESET ISP Arduino
-# 17       xx GND
-# 18       xx
-# 19       xx
-# 20   GND xx
+         RASPI
+  1   3V3 xx 5V
+  2   SDA xx 5V
+  3   SCL xx GND
+  4       xx TX   Serial Com Arduino
+  5       xx RX   Serial Com Arduino
+  6       xx MISO ISP Arduino
+  7       xx GND
+  8       xx MOSI ISP Arduino
+  9   3V3 xx SCK  ISP Arduino
+ 10  MOSI xx GND
+ 11  MISO xx
+ 12  CLK  xx
+ 13   GND xx
+ 14    NC xx NC
+ 15       xx GND
+ 16       xx RESET ISP Arduino
+ 17       xx GND
+ 18       xx
+ 19       xx
+ 20   GND xx
 
 Arduino
-#         ISP
-#     MISO xx  3V3
-#      SCK xx  MOSI
-#    RESET xx  GND
+         ISP
+     MISO xx  3V3
+      SCK xx  MOSI
+    RESET xx  GND
 
  0 RX
  1 TX
