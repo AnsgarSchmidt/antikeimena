@@ -20,3 +20,7 @@ cp /nanopb/pb_decode.c ../../arduino/lib/nanopb/
 cp /nanopb/pb_encode.h ../../arduino/lib/nanopb/
 cp /nanopb/pb_encode.c ../../arduino/lib/nanopb/
 
+cd  ./../../arduino/
+platformio run
+
+cp .pioenvs/megaatmega2560/firmware.hex firmware/sisyphus.hex
