@@ -1,3 +1,5 @@
 sisyphus/python/status_pb2.py
 sisyphus/python/status_pb2.pyc
 arduino/lib/nanopb
+/arduino/.pioenvs/
+/arduino/.piolibdeps/
