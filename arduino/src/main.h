@@ -3,11 +3,15 @@
 
 extern "C" {
     #include "pb.h"
-    #include "status.pb.h"
     #include "config.pb.h"
+    #include "motor.pb.h"
+    #include "sensor.pb.h"
+    #include "status.pb.h"
 }
 
-extern antikeimena_Status status;
 extern antikeimena_Config config;
+extern antikeimena_Motor  motor;
+extern antikeimena_Sensor sensor;
+extern antikeimena_Status status;
 
 #endif

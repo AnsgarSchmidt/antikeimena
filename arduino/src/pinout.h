@@ -12,6 +12,4 @@
 #define ODOMETRY_LEFT     2 // Interrupt enabled
 #define ODOMETRY_RIGHT    3 // Interrupt enabled
 
-extern void setup_pin(void);
-
 #endif

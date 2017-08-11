@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 
+extern void setup_uplink(void);
 extern void sendPB(void);
 
 #endif

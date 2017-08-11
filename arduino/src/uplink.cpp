@@ -8,10 +8,16 @@ extern "C" {
     #include "status.pb.h"
 }
 
-void sendPB(void){
-    uint8_t buffer[256];
+uint8_t buffer[256];
 
-    pb_ostream_t       stream = pb_ostream_from_buffer(buffer, sizeof(buffer));
+
+void setup_uplink(void){
+  Serial.begin(9600);
+}
+
+void sendPB(void){
+
+    pb_ostream_t stream = pb_ostream_from_buffer(buffer, sizeof(buffer));
     pb_encode(&stream, antikeimena_Status_fields, &status);
 
     uint16_t s = antikeimena_Status_size;
