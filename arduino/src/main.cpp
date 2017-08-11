@@ -1,32 +1,32 @@
-#include "pinout.h"
-#include "status.pb.h"
-#include <Servo.h>
+#include <Arduino.h>
+#include "uplink.h"
+#include "main.h"
 
-Servo leftMotor;
-Servo rightMotor;
-
-void setup_pin(){
-
-  pinMode(MOTOR_BREAK,      OUTPUT);
-  digitalWrite(MOTOR_BREAK, LOW);
-
-  leftMotor.attach(MOTOR_PWM_LEFT);
-  leftMotor.write(90);
-
-  rightMotor.attach(MOTOR_PWM_RIGHT);
-  rightMotor.write(90);
+extern "C" {
+    #include "pinout.h"
+    #include "odometry.h"
 }
+
+antikeimena_Status status;
+antikeimena_Config config;
 
 void setup() {
   setup_pin();
-  Serial3.begin(9600);
-  Serial3.println("Begin");
+  Serial.begin(9600);
+
+  status.version       = 12;
+  status.uptime        = 13;
+  status.sensorInError = 14;
 }
 
 void loop() {
-  digitalWrite(MOTOR_BREAK, HIGH);
-  delay(100);
-  Serial3.println("Hallo");
+
+   delay(1000);
+   sendPB();
+
+  //digitalWrite(MOTOR_BREAK, HIGH);
+  //delay(100);
+  //Serial3.println("Hallo");
 
 /*
 
