@@ -1,6 +1,6 @@
 #ifndef MOTOR_H
 #define MOTOR_H
 
-extern void setup_motor(void);
+extern void motor_setup(void);
 
 #endif

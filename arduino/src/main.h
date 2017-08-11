@@ -9,9 +9,10 @@ extern "C" {
     #include "status.pb.h"
 }
 
-extern antikeimena_Config config;
-extern antikeimena_Motor  motor;
-extern antikeimena_Sensor sensor;
-extern antikeimena_Status status;
+// Global vars
+extern antikeimena_Config config_pb;
+extern antikeimena_Motor  motor_pb;
+extern antikeimena_Sensor sensor_pb;
+extern antikeimena_Status status_pb;
 
 #endif

@@ -8,17 +8,16 @@ extern "C" {
     #include "status.pb.h"
 }
 
-uint8_t buffer[256];
+uint8_t uplink_send_buffer[256];
 
-
-void setup_uplink(void){
+void uplink_setup(void){
   Serial.begin(9600);
 }
 
-void sendPB(void){
+void uplink_sendStatus(void){
 
-    pb_ostream_t stream = pb_ostream_from_buffer(buffer, sizeof(buffer));
-    pb_encode(&stream, antikeimena_Status_fields, &status);
+    pb_ostream_t stream = pb_ostream_from_buffer(uplink_send_buffer, sizeof(uplink_send_buffer));
+    pb_encode(&stream, antikeimena_Status_fields, &status_pb);
 
     uint16_t s = antikeimena_Status_size;
 
@@ -28,7 +27,7 @@ void sendPB(void){
     Serial.write( (s >> 8) & 0xFF); // high
 
     for(uint32_t i = 0; i < antikeimena_Status_size; i++) {
-        Serial.write(buffer[i]);
+        Serial.write(uplink_send_buffer[i]);
     }
 
 }

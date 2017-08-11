@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include "uplink.h"
 #include "main.h"
+#include "uplink.h"
 
 extern "C" {
     #include "motor.h"
@@ -11,23 +11,23 @@ extern "C" {
 ////////////////////
 /// Protobuffers ///
 ////////////////////
-antikeimena_Config config;
-antikeimena_Motor  motor;
-antikeimena_Sensor sensor;
-antikeimena_Status status;
+antikeimena_Config config_pb;
+antikeimena_Motor  motor_pb;
+antikeimena_Sensor sensor_pb;
+antikeimena_Status status_pb;
 
 //////////////////////
 /// Setup function ///
 //////////////////////
 void setup() {
 
-  setup_motor();
-  setup_odometry();
-  setup_uplink();
+  motor_setup();
+  odometry_setup();
+  uplink_setup();
 
-  status.version       = 12;
-  status.uptime        = 13;
-  status.sensorInError = 14;
+  status_pb.version       = 12;
+  status_pb.uptime        = 13;
+  status_pb.sensorInError = 14;
 }
 
 ////////////////////
@@ -35,5 +35,5 @@ void setup() {
 ////////////////////
 void loop() {
    delay(1000);
-   sendPB();
+   uplink_sendStatus();
 }

@@ -3,13 +3,13 @@
 
 //      Serial RX         0
 //      Serial TX         1
-#define MOTOR_PWM_RIGHT  13 // PWM
-#define MOTOR_PWM_LEFT   12 // PWM
-#define MOTOR_BREAK      11
+#define PIN_MOTOR_PWM_RIGHT  13 // PWM
+#define PIN_MOTOR_PWM_LEFT   12 // PWM
+#define PIN_MOTOR_BREAK      11
 
-#define BATTERY          A0
+#define PIN_BATTERY          A0
 
-#define ODOMETRY_LEFT     2 // Interrupt enabled
-#define ODOMETRY_RIGHT    3 // Interrupt enabled
+#define PIN_ODOMETRY_LEFT     2 // Interrupt enabled
+#define PIN_ODOMETRY_RIGHT    3 // Interrupt enabled
 
 #endif

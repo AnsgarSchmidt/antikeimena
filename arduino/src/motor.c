@@ -1,11 +1,11 @@
+#include <Arduino.h>
 #include "motor.h"
 #include "pinout.h"
-#include <Arduino.h>
 
-void setup_motor(void){
+void motor_setup(void){
 
-  pinMode(MOTOR_BREAK,      OUTPUT);
-  digitalWrite(MOTOR_BREAK, LOW);   // Motors are blocked at startup
+  pinMode(PIN_MOTOR_BREAK,      OUTPUT);
+  digitalWrite(PIN_MOTOR_BREAK, LOW);   // Motors are blocked at startup
 
   //leftMotor.attach(MOTOR_PWM_LEFT);
   //leftMotor.write(90);
@@ -15,6 +15,13 @@ void setup_motor(void){
 
 
 }
+
+
+
+
+
+
+
 
 
   //digitalWrite(MOTOR_BREAK, HIGH);

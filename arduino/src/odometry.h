@@ -6,11 +6,11 @@
 volatile uint16_t odometry_left_counter;
 volatile uint16_t odometry_right_counter;
 
-extern void setup_odometry(void);
-extern void handle_odometry_left(void);
-extern void handle_odometry_right(void);
+extern void odometry_setup(void);
+extern void odometry_handle_left(void);
+extern void odometry_handle_right(void);
 
-extern uint16_t get_odometry_left_counter(void);
-extern uint16_t get_odometry_right_counter(void);
+extern uint16_t odometry_get_left_counter(void);
+extern uint16_t odometry_get_right_counter(void);
 
 #endif

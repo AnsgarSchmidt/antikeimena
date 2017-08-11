@@ -2,28 +2,29 @@
 #include "odometry.h"
 #include "pinout.h"
 
-void setup_odometry(void){
-
+void odometry_setup(void){
     odometry_left_counter  = 0;
     odometry_right_counter = 0;
-
-    attachInterrupt(digitalPinToInterrupt(ODOMETRY_LEFT),  handle_odometry_left,  RISING);
-    attachInterrupt(digitalPinToInterrupt(ODOMETRY_RIGHT), handle_odometry_right, RISING);
-
+    attachInterrupt(digitalPinToInterrupt(PIN_ODOMETRY_LEFT),  odometry_handle_left,  RISING);
+    attachInterrupt(digitalPinToInterrupt(PIN_ODOMETRY_RIGHT), odometry_handle_right, RISING);
 }
 
-void handle_odometry_left(void){
+void odometry_handle_left(void){
     odometry_left_counter++;
 }
 
-void handle_odometry_right(void){
+void odometry_handle_right(void){
     odometry_right_counter++;
 }
 
-uint16_t get_odometry_left_counter(void){
-    return 0;
+uint16_t odometry_get_left_counter(void){
+    uint16_t val = odometry_left_counter;
+    odometry_left_counter = 0;
+    return val;
 }
 
-uint16_t get_odometry_right_counter(void){
-    return 0;
+uint16_t odometry_get_right_counter(void){
+    uint16_t val = odometry_right_counter;
+    odometry_right_counter = 0;
+    return val;
 }
