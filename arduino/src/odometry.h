@@ -3,8 +3,8 @@
 
 #include <Arduino.h>
 
-volatile uint16_t odometry_left_counter;
-volatile uint16_t odometry_right_counter;
+extern volatile uint16_t odometry_left_counter;
+extern volatile uint16_t odometry_right_counter;
 
 extern void odometry_setup(void);
 extern void odometry_handle_left(void);
