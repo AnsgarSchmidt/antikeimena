@@ -2,7 +2,7 @@
 
 mkdir ../../arduino/lib/nanopb
 
-for name in status
+for name in config motor sensor status
 do
     protoc --proto_path ../../protobuf/ --python_out=../python ../../protobuf/${name}.proto
     protoc --proto_path ../../protobuf/ -o ${name}.pb          ../../protobuf/${name}.proto
@@ -21,6 +21,8 @@ cp /nanopb/pb_encode.h ../../arduino/lib/nanopb/
 cp /nanopb/pb_encode.c ../../arduino/lib/nanopb/
 
 cd  ./../../arduino/
+#platformio init
+#platformio lib install id=883 #Servo
 platformio run
 
 cp .pioenvs/megaatmega2560/firmware.hex firmware/sisyphus.hex
