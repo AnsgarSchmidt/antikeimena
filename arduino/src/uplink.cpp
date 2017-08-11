@@ -8,7 +8,7 @@ extern "C" {
     #include "status.pb.h"
 }
 
-uint8_t uplink_send_buffer[256];
+uint8_t uplink_send_buffer[BUFFERSIZE];
 
 void uplink_setup(void){
   Serial.begin(9600);
@@ -29,5 +29,9 @@ void uplink_sendStatus(void){
     for(uint32_t i = 0; i < antikeimena_Status_size; i++) {
         Serial.write(uplink_send_buffer[i]);
     }
+
+}
+
+void uplink_sendSensor(void){
 
 }
