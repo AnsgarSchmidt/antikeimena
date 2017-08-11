@@ -1,3 +1,9 @@
+sisyphus/python/config_pb2.py
+sisyphus/python/config_pb2.pyc
+sisyphus/python/motor_pb2.py
+sisyphus/python/motor_pb2.pyc
+sisyphus/python/sensor_pb2.py
+sisyphus/python/sensor_pb2.pyc
 sisyphus/python/status_pb2.py
 sisyphus/python/status_pb2.pyc
 arduino/lib/nanopb
