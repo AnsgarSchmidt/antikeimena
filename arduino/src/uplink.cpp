@@ -5,6 +5,7 @@
 extern "C" {
     #include "pb.h"
     #include "pb_encode.h"
+    #include "pb_decode.h"
     #include "status.pb.h"
     #include "sensor.pb.h"
     #include "odometry.h"
@@ -17,6 +18,8 @@ void uplink_setup(void){
 }
 
 void uplink_sendStatus(void){
+
+    antikeimena_Status status_pb;
 
     status_pb.version       = 12;
     status_pb.uptime        = 13;
@@ -41,22 +44,34 @@ void uplink_sendStatus(void){
 
 void uplink_sendSensor(void){
 
-    sensor_pb.odometry_left  = odometry_get_left_counter();
-    sensor_pb.odometry_right = odometry_get_right_counter();
+    antikeimena_Sensor sensor_pb = antikeimena_Sensor_init_zero;
+
+    sensor_pb.odometry_left   = odometry_get_left_counter();
+    sensor_pb.odometry_right  = odometry_get_right_counter();
+    sensor_pb.battery_voltage = 32.2;
+    sensor_pb.ultrasonic_01   = 41;
+    sensor_pb.ultrasonic_02   = 42;
+    sensor_pb.ultrasonic_03   = 43;
+    sensor_pb.ultrasonic_04   = 44;
 
     pb_ostream_t stream = pb_ostream_from_buffer(uplink_send_buffer, sizeof(uplink_send_buffer));
     pb_encode(&stream, antikeimena_Sensor_fields, &sensor_pb);
 
-    uint16_t s = antikeimena_Sensor_size;
+    uint16_t mysize = stream.bytes_written;
 
     Serial.write("ANSI");
+    Serial.flush();
+
     Serial.write(SENSOR_MESSAGE);
+    Serial.flush();
 
-    Serial.write( (s     ) & 0xFF); // low
-    Serial.write( (s >> 8) & 0xFF); // high
+    Serial.write( (mysize     ) & 0xFF); // low
+    Serial.write( (mysize >> 8) & 0xFF); // high
+    Serial.flush();
 
-    for(uint32_t i = 0; i < antikeimena_Sensor_size; i++) {
+    for(uint32_t i = 0; i < mysize; i++) {
         Serial.write(uplink_send_buffer[i]);
     }
+    Serial.flush();
 
 }
