@@ -5,11 +5,14 @@
 volatile uint16_t odometry_left_counter;
 volatile uint16_t odometry_right_counter;
 
+extern void odometry_handle_left(void);
+extern void odometry_handle_right(void);
+
 void odometry_setup(void){
     odometry_left_counter  = 0;
     odometry_right_counter = 0;
-    pinMode(PIN_ODOMETRY_LEFT,  INPUT_PULLUP);
-    pinMode(PIN_ODOMETRY_RIGHT, INPUT_PULLUP);
+    pinMode(PIN_ODOMETRY_LEFT,  INPUT);
+    pinMode(PIN_ODOMETRY_RIGHT, INPUT);
     attachInterrupt(digitalPinToInterrupt(PIN_ODOMETRY_LEFT),  odometry_handle_left,  RISING);
     attachInterrupt(digitalPinToInterrupt(PIN_ODOMETRY_RIGHT), odometry_handle_right, RISING);
 }
