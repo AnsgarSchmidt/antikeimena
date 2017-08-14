@@ -8,14 +8,6 @@ extern "C" {
     #include "odometry.h"
 }
 
-////////////////////
-/// Protobuffers ///
-////////////////////
-antikeimena_Config config_pb;
-antikeimena_Motor  motor_pb;
-antikeimena_Sensor sensor_pb;
-antikeimena_Status status_pb;
-
 //////////////////////
 /// Scheduler vars ///
 //////////////////////
