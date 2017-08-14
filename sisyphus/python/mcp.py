@@ -21,18 +21,18 @@ def debugData():
     with serial.Serial('/dev/cu.wchusbserial1410', 9600, timeout=10000) as ser:
         state         = 0
         hexsize       = ''
-        buffer        = ''
-        messagelength = 7
+        message       = ''
         messagetype   = 0
+        messagelength = 0
 
-        while state < messagelength:
+        while state < 7:
 
             c = ser.read()
 
             if state == 0:
                 if ord(c) == 0x41:
                     state += 1
-                    print "A"
+                    print ("A")
                     continue
                 else:
                     state = 0
@@ -40,7 +40,7 @@ def debugData():
             if state == 1:
                 if ord(c) == 0x4E:
                     state += 1
-                    print "N"
+                    print ("N")
                     continue
                 else:
                     state = 0
@@ -48,7 +48,7 @@ def debugData():
             if state == 2:
                 if ord(c) == 0x53:
                     state += 1
-                    print "S"
+                    print ("S")
                     continue
                 else:
                     state = 0
@@ -56,7 +56,7 @@ def debugData():
             if state == 3:
                 if ord(c) == 0x49:
                     state += 1
-                    print "I"
+                    print ("I")
                     hexsize = ''
                     continue
                 else:
@@ -65,54 +65,49 @@ def debugData():
             if state == 4:
                 messagetype = ord(c)
                 state += 1
-                print "MessageType: %d" % messagetype
+                print ("MessageType: %d" % messagetype)
                 continue
 
             if state == 5:
-                hexsize += c
+                hexsize = c
                 state += 1
-                print "size"
+                print ("size")
                 continue
 
             if state == 6:
                 hexsize += c
                 state += 1
-                buffer = ''
-                messagelength += unpack('<H', hexsize)[0]
-                print "size:%d" % (messagelength-7)
+                messagelength = unpack('<H', hexsize)[0]
+                print ("size:%d" % messagelength)
                 continue
 
-            if state > 6:
-                state += 1
-                buffer += c
-
-        print "Buffersize:%d" % len(buffer)
-        time.sleep(0.1)
+        message = ser.read(messagelength)
+        print ("Buffersize:%d" % len(message))
 
         if messagetype == 4:
-            print "STATUS:"
+            print ("STATUS:")
             status = status_pb2.Status()
-            status.ParseFromString(buffer)
-            print status
+            status.ParseFromString(message)
+            print (status)
 
         if messagetype == 3:
-            print "Sensor:"
+            print ("Sensor:")
             sensor = sensor_pb2.Sensor()
-            sensor.ParseFromString(buffer)
-            print sensor
+            sensor.ParseFromString(message)
+            print (sensor)
 
         if messagetype == 2:
-            print "Motor:"
+            print ("Motor:")
             motor = motor_pb2.Motor()
-            motor.ParseFromString(buffer)
-            print motor
+            motor.ParseFromString(message)
+            print (motor)
 
         if messagetype == 1:
-            print "Config:"
+            print ("Config:")
             config = config_pb2.Config()
-            config.ParseFromString(buffer)
-            print config
+            config.ParseFromString(message)
+            print (config)
 
 if __name__ == "__main__":
-    for i in range(100):
+    for i in range(23):
         debugData()
