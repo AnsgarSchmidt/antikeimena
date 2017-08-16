@@ -104,7 +104,21 @@ def debugData(ser):
         config.ParseFromString(message)
         print (config)
 
+def sendMotor(ser, left, right):
+    motor = motor_pb2.Motor()
+    motor.speed_left  = left
+    motor.speed_right = right
+    message = motor.SerializeToString()
+    ser.write(0x41) # A
+    ser.write(0x4E) # N
+    ser.write(0x53) # S
+    ser.write(0x49) # I
+    ser.write(0x02) # MOTOR
+    ser.write(pack('<H', len(message)))
+    ser.write(message)
+
 if __name__ == "__main__":
     with serial.Serial('/dev/cu.wchusbserial1410', 115200, timeout=10000) as ser:
-        for i in range(23):
+        for i in range(42):
             debugData(ser)
+            sendMotor(ser, 23, 42)
