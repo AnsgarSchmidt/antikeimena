@@ -1,5 +1,5 @@
-#ifndef ULTRASONIC_H
-#define ULTRASONIC_H
+#ifndef USONIC_H
+#define USONIC_H
 
 #define NUM_ULTRASONIC_SENSORS 10
 

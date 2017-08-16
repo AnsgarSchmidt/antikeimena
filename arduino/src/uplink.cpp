@@ -10,6 +10,7 @@ extern "C" {
     #include "status.pb.h"
     #include "sensor.pb.h"
     #include "odometry.h"
+    #include "battery.h"
 }
 
 uint8_t uplink_send_buffer[BUFFERSIZE];
@@ -49,7 +50,7 @@ void uplink_sendSensor(void){
 
     sensor_pb.odometry_left   = odometry_get_left_counter();
     sensor_pb.odometry_right  = odometry_get_right_counter();
-    sensor_pb.battery_voltage = 32.2;
+    sensor_pb.battery_voltage = battery_voltage;
     sensor_pb.ultrasonic_01   = ultrasonic_distance[0];
     sensor_pb.ultrasonic_02   = ultrasonic_distance[1];
     sensor_pb.ultrasonic_03   = ultrasonic_distance[2];
