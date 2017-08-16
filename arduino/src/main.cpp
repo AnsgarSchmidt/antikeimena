@@ -45,7 +45,7 @@ void loop() {
    }
 
    if (scheduler_send_status > SCHEDULER_SEND_STATUS_DELAY){
-        //uplink_sendStatus();
+        uplink_sendStatus();
         scheduler_send_status = 0;
    }
 
