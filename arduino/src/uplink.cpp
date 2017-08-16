@@ -13,6 +13,8 @@ extern "C" {
     #include "battery.h"
 }
 
+volatile uint32_t mycounter = 0;
+
 uint8_t uplink_send_buffer[BUFFERSIZE];
 
 void uplink_setup(void){
@@ -24,8 +26,9 @@ void uplink_sendStatus(void){
     antikeimena_Status status_pb = antikeimena_Status_init_zero;
 
     status_pb.version       = 12;
-    status_pb.uptime        = 13;
+    status_pb.uptime        = millis();
     status_pb.sensorInError = 14;
+    status_pb.debug         = mycounter;
 
     pb_ostream_t stream = pb_ostream_from_buffer(uplink_send_buffer, sizeof(uplink_send_buffer));
     pb_encode(&stream, antikeimena_Status_fields, &status_pb);
@@ -86,4 +89,11 @@ void uplink_sendSensor(void){
     }
     Serial.flush();
 
+}
+
+void uplink_checkReceive(void) {
+  while (Serial.available()) {
+    Serial.read();
+    mycounter++;
+  }
 }

@@ -24,5 +24,6 @@
 extern void uplink_setup(void);
 extern void uplink_sendStatus(void);
 extern void uplink_sendSensor(void);
+extern void uplink_checkReceive(void);
 
 #endif
