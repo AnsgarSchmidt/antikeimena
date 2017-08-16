@@ -13,10 +13,10 @@ extern "C" {
 //////////////////////
 /// Scheduler vars ///
 //////////////////////
-uint16_t scheduler_send_status        = INT16_MAX;
-uint16_t scheduler_send_sensor        = INT16_MAX;
-uint16_t scheduler_measure_ultrasonic = INT16_MAX;
-uint16_t scheduler_measure_battery    = INT16_MAX;
+uint16_t scheduler_send_status        = UINT16_MAX;
+uint16_t scheduler_send_sensor        = UINT16_MAX;
+uint16_t scheduler_measure_ultrasonic = UINT16_MAX;
+uint16_t scheduler_measure_battery    = UINT16_MAX;
 
 //////////////////////
 /// Setup function ///
