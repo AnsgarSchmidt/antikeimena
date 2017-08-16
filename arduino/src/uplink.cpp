@@ -21,7 +21,7 @@ void uplink_setup(void){
 
 void uplink_sendStatus(void){
 
-    antikeimena_Status status_pb;
+    antikeimena_Status status_pb = antikeimena_Status_init_zero;
 
     status_pb.version       = 12;
     status_pb.uptime        = 13;
@@ -30,18 +30,22 @@ void uplink_sendStatus(void){
     pb_ostream_t stream = pb_ostream_from_buffer(uplink_send_buffer, sizeof(uplink_send_buffer));
     pb_encode(&stream, antikeimena_Status_fields, &status_pb);
 
-    uint16_t s = antikeimena_Status_size;
+    uint16_t mysize = stream.bytes_written;
 
     Serial.write("ANSI");
+    Serial.flush();
+
     Serial.write(STATUS_MESSAGE);
+    Serial.flush();
 
-    Serial.write( (s     ) & 0xFF); // low
-    Serial.write( (s >> 8) & 0xFF); // high
+    Serial.write( (mysize     ) & 0xFF); // low
+    Serial.write( (mysize >> 8) & 0xFF); // high
+    Serial.flush();
 
-    for(uint32_t i = 0; i < antikeimena_Status_size; i++) {
+    for(uint32_t i = 0; i < mysize; i++) {
         Serial.write(uplink_send_buffer[i]);
     }
-
+    Serial.flush();
 }
 
 void uplink_sendSensor(void){
