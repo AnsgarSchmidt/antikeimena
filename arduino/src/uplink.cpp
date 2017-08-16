@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "uplink.h"
 #include "main.h"
+#include "usonic.h"
 
 extern "C" {
     #include "pb.h"
@@ -14,7 +15,7 @@ extern "C" {
 uint8_t uplink_send_buffer[BUFFERSIZE];
 
 void uplink_setup(void){
-  Serial.begin(9600);
+  Serial.begin(UPLINK_SPEED);
 }
 
 void uplink_sendStatus(void){
@@ -49,10 +50,16 @@ void uplink_sendSensor(void){
     sensor_pb.odometry_left   = odometry_get_left_counter();
     sensor_pb.odometry_right  = odometry_get_right_counter();
     sensor_pb.battery_voltage = 32.2;
-    sensor_pb.ultrasonic_01   = 41;
-    sensor_pb.ultrasonic_02   = 42;
-    sensor_pb.ultrasonic_03   = 43;
-    sensor_pb.ultrasonic_04   = 44;
+    sensor_pb.ultrasonic_01   = ultrasonic_distance[0];
+    sensor_pb.ultrasonic_02   = ultrasonic_distance[1];
+    sensor_pb.ultrasonic_03   = ultrasonic_distance[2];
+    sensor_pb.ultrasonic_04   = ultrasonic_distance[3];
+    sensor_pb.ultrasonic_05   = ultrasonic_distance[4];
+    sensor_pb.ultrasonic_06   = ultrasonic_distance[5];
+    sensor_pb.ultrasonic_07   = ultrasonic_distance[6];
+    sensor_pb.ultrasonic_08   = ultrasonic_distance[7];
+    sensor_pb.ultrasonic_09   = ultrasonic_distance[8];
+    sensor_pb.ultrasonic_10   = ultrasonic_distance[9];
 
     pb_ostream_t stream = pb_ostream_from_buffer(uplink_send_buffer, sizeof(uplink_send_buffer));
     pb_encode(&stream, antikeimena_Sensor_fields, &sensor_pb);

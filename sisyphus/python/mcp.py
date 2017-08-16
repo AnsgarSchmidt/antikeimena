@@ -1,5 +1,4 @@
 import serial
-import time
 import config_pb2
 import motor_pb2
 import sensor_pb2
@@ -18,10 +17,9 @@ from   struct     import *
 
 
 def debugData():
-    with serial.Serial('/dev/cu.wchusbserial1410', 9600, timeout=10000) as ser:
+    with serial.Serial('/dev/cu.wchusbserial1410', 115200, timeout=10000) as ser:
         state         = 0
         hexsize       = ''
-        message       = ''
         messagetype   = 0
         messagelength = 0
 
@@ -57,7 +55,6 @@ def debugData():
                 if ord(c) == 0x49:
                     state += 1
                     print ("I")
-                    hexsize = ''
                     continue
                 else:
                     state = 0
