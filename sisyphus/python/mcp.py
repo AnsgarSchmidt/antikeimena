@@ -113,9 +113,10 @@ def sendMotor(ser, left, right):
     ser.write(0x4E) # N
     ser.write(0x53) # S
     ser.write(0x49) # I
-    ser.write(0x02) # MOTOR
+    ser.write(0x2)  # MOTOR
     ser.write(pack('<H', len(message)))
     ser.write(message)
+    ser.flush()
 
 if __name__ == "__main__":
     with serial.Serial('/dev/cu.wchusbserial1410', 115200, timeout=10000) as ser:
