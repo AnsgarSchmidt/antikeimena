@@ -1,13 +1,5 @@
-sisyphus/python/config_pb2.py
-sisyphus/python/config_pb2.pyc
-sisyphus/python/motor_pb2.py
-sisyphus/python/motor_pb2.pyc
-sisyphus/python/sensor_pb2.py
-sisyphus/python/sensor_pb2.pyc
-sisyphus/python/status_pb2.py
-sisyphus/python/status_pb2.pyc
+sisyphus/python/*.pyc
 sisyphus/python/__pycache__/
 arduino/lib/nanopb
 /arduino/.pioenvs/
 /arduino/.piolibdeps/
-sisyphus/python/__pycache__/status_pb2.cpython-36.pyc
