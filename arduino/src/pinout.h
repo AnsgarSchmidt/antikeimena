@@ -22,9 +22,9 @@
 #define ULTRASONIC_01_TRIGGER 31
 #define ULTRASONIC_01_ECHO    30
 
-#define PIN_MOTOR_PWM_RIGHT   13 // PWM
-#define PIN_MOTOR_PWM_LEFT    12 // PWM
-#define PIN_MOTOR_BREAK       11
+#define PIN_MOTOR_PWM_LEFT     6 // PWM
+#define PIN_MOTOR_PWM_RIGHT    5 // PWM
+#define PIN_MOTOR_BREAK        4
 
 #define PIN_ODOMETRY_LEFT      3 // Interrupt enabled
 #define PIN_ODOMETRY_RIGHT     2 // Interrupt enabled
