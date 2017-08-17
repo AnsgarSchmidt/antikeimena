@@ -21,7 +21,7 @@ uint8_t       uplink_receive_buffer[BUFFERSIZE];
 uint8_t       uplink_send_buffer[BUFFERSIZE];
 
 void uplink_setup(void){
-  Serial.begin(UPLINK_SPEED);
+  Serial1.begin(UPLINK_SPEED);
 }
 
 void uplink_sendStatus(void){
@@ -38,20 +38,20 @@ void uplink_sendStatus(void){
 
     uint16_t mysize = stream.bytes_written;
 
-    Serial.write("ANSI");
-    Serial.flush();
+    Serial1.write("ANSI");
+    Serial1.flush();
 
-    Serial.write(STATUS_MESSAGE);
-    Serial.flush();
+    Serial1.write(STATUS_MESSAGE);
+    Serial1.flush();
 
-    Serial.write( (mysize     ) & 0xFF); // low
-    Serial.write( (mysize >> 8) & 0xFF); // high
-    Serial.flush();
+    Serial1.write( (mysize     ) & 0xFF); // low
+    Serial1.write( (mysize >> 8) & 0xFF); // high
+    Serial1.flush();
 
     for(uint32_t i = 0; i < mysize; i++) {
-        Serial.write(uplink_send_buffer[i]);
+        Serial1.write(uplink_send_buffer[i]);
     }
-    Serial.flush();
+    Serial1.flush();
 }
 
 void uplink_sendSensor(void){
@@ -77,28 +77,28 @@ void uplink_sendSensor(void){
 
     uint16_t mysize = stream.bytes_written;
 
-    Serial.write("ANSI");
-    Serial.flush();
+    Serial1.write("ANSI");
+    Serial1.flush();
 
-    Serial.write(SENSOR_MESSAGE);
-    Serial.flush();
+    Serial1.write(SENSOR_MESSAGE);
+    Serial1.flush();
 
-    Serial.write( (mysize     ) & 0xFF); // low
-    Serial.write( (mysize >> 8) & 0xFF); // high
-    Serial.flush();
+    Serial1.write( (mysize     ) & 0xFF); // low
+    Serial1.write( (mysize >> 8) & 0xFF); // high
+    Serial1.flush();
 
     for(uint32_t i = 0; i < mysize; i++) {
-        Serial.write(uplink_send_buffer[i]);
+        Serial1.write(uplink_send_buffer[i]);
     }
-    Serial.flush();
+    Serial1.flush();
 
 }
 
 void uplink_checkReceive(void) {
 
-  while (Serial.available()) {
+  while (Serial1.available()) {
 
-    uint8_t c = Serial.read();
+    uint8_t c = Serial1.read();
 
     if (uplink_state == WAITING_FOR_A){
         if (c == 0x41){
