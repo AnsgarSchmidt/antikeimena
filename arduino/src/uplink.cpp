@@ -13,12 +13,15 @@ extern "C" {
     #include "battery.h"
 }
 
-volatile uint32_t mycounter = 0;
-
-uint8_t uplink_send_buffer[BUFFERSIZE];
+uplink_states uplink_state         = WAITING_FOR_A;
+uint16_t      uplink_message_size  = 0;
+uint8_t       uplink_message_type  = 0;
+uint8_t       uplink_message_index = 0;
+uint8_t       uplink_receive_buffer[BUFFERSIZE];
+uint8_t       uplink_send_buffer[BUFFERSIZE];
 
 void uplink_setup(void){
-  Serial.begin(UPLINK_SPEED);
+  Serial1.begin(UPLINK_SPEED);
 }
 
 void uplink_sendStatus(void){
@@ -28,27 +31,27 @@ void uplink_sendStatus(void){
     status_pb.version       = 12;
     status_pb.uptime        = millis();
     status_pb.sensorInError = 14;
-    status_pb.debug         = mycounter;
+    status_pb.debug         = (uint32_t)uplink_message_type;
 
     pb_ostream_t stream = pb_ostream_from_buffer(uplink_send_buffer, sizeof(uplink_send_buffer));
     pb_encode(&stream, antikeimena_Status_fields, &status_pb);
 
     uint16_t mysize = stream.bytes_written;
 
-    Serial.write("ANSI");
-    Serial.flush();
+    Serial1.write("ANSI");
+    Serial1.flush();
 
-    Serial.write(STATUS_MESSAGE);
-    Serial.flush();
+    Serial1.write(STATUS_MESSAGE);
+    Serial1.flush();
 
-    Serial.write( (mysize     ) & 0xFF); // low
-    Serial.write( (mysize >> 8) & 0xFF); // high
-    Serial.flush();
+    Serial1.write( (mysize     ) & 0xFF); // low
+    Serial1.write( (mysize >> 8) & 0xFF); // high
+    Serial1.flush();
 
     for(uint32_t i = 0; i < mysize; i++) {
-        Serial.write(uplink_send_buffer[i]);
+        Serial1.write(uplink_send_buffer[i]);
     }
-    Serial.flush();
+    Serial1.flush();
 }
 
 void uplink_sendSensor(void){
@@ -74,26 +77,87 @@ void uplink_sendSensor(void){
 
     uint16_t mysize = stream.bytes_written;
 
-    Serial.write("ANSI");
-    Serial.flush();
+    Serial1.write("ANSI");
+    Serial1.flush();
 
-    Serial.write(SENSOR_MESSAGE);
-    Serial.flush();
+    Serial1.write(SENSOR_MESSAGE);
+    Serial1.flush();
 
-    Serial.write( (mysize     ) & 0xFF); // low
-    Serial.write( (mysize >> 8) & 0xFF); // high
-    Serial.flush();
+    Serial1.write( (mysize     ) & 0xFF); // low
+    Serial1.write( (mysize >> 8) & 0xFF); // high
+    Serial1.flush();
 
     for(uint32_t i = 0; i < mysize; i++) {
-        Serial.write(uplink_send_buffer[i]);
+        Serial1.write(uplink_send_buffer[i]);
     }
-    Serial.flush();
+    Serial1.flush();
 
 }
 
 void uplink_checkReceive(void) {
-  while (Serial.available()) {
-    Serial.read();
-    mycounter++;
+
+  while (Serial1.available()) {
+
+    uint8_t c = Serial1.read();
+
+    if (uplink_state == WAITING_FOR_A){
+        if (c == 0x41){
+            uplink_state = WAITING_FOR_N;
+        }else{
+            uplink_state = WAITING_FOR_A;
+        }
+    }
+
+    if (uplink_state == WAITING_FOR_N){
+
+        if (c == 0x4E){
+            uplink_state = WAITING_FOR_S;
+        }else{
+            uplink_state = WAITING_FOR_A;
+        }
+    }
+
+    if (uplink_state == WAITING_FOR_S){
+        if (c == 0x53){
+            uplink_state = WAITING_FOR_I;
+        }else{
+            uplink_state = WAITING_FOR_A;
+        }
+    }
+
+    if (uplink_state == WAITING_FOR_I){
+        if (c == 0x49){
+            uplink_state = WAITING_FOR_TYPE;
+        }else{
+            uplink_state = WAITING_FOR_A;
+        }
+    }
+
+    if (uplink_state == WAITING_FOR_TYPE){
+        uplink_message_type = c;
+        uplink_state = WAITING_FOR_SIZE_L;
+    }
+
+    if (uplink_state == WAITING_FOR_SIZE_L){
+        uplink_message_size = (uint16_t) c;
+        uplink_state = WAITING_FOR_SIZE_H;
+    }
+
+    if (uplink_state == WAITING_FOR_SIZE_H){
+        uint16_t val = (uint16_t) c;
+        val <<= 8;
+        uplink_message_size = val & uplink_message_size;
+        uplink_state = WAITING_FOR_MESSAGE;
+    }
+
+    if (uplink_state == WAITING_FOR_MESSAGE){
+        uplink_receive_buffer[uplink_message_index] = c;
+        uplink_message_index++;
+
+        if(uplink_message_index > uplink_message_size){
+            uplink_state = WAITING_FOR_A;
+        }
+    }
+
   }
 }

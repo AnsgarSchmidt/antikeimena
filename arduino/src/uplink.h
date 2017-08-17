@@ -8,6 +8,25 @@
 #include "sensor.pb.h"
 #include "status.pb.h"
 
+enum uplink_states {
+                    WAITING_FOR_A,
+                    WAITING_FOR_N,
+                    WAITING_FOR_S,
+                    WAITING_FOR_I,
+                    WAITING_FOR_TYPE,
+                    WAITING_FOR_SIZE_L,
+                    WAITING_FOR_SIZE_H,
+                    WAITING_FOR_MESSAGE
+                   };
+
+enum uplink_message_types {
+                            NOTSET,
+                            CONFIG,
+                            MOTOR,
+                            SENSOR,
+                            STATUS
+                          };
+
 #define MAX(a,b) ((a) > (b) ? a : b)
 #define MIN(a,b) ((a) < (b) ? a : b)
 
