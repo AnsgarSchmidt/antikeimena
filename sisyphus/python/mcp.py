@@ -119,7 +119,7 @@ def sendMotor(ser, left, right):
     ser.flush()
 
 if __name__ == "__main__":
-    with serial.Serial('/dev/cu.wchusbserial1410', 115200, timeout=10000) as ser:
-        for i in range(42):
+    with serial.Serial('/dev/ttyAMA0', 115200, timeout=10000) as ser:
+        for i in range(420):
             debugData(ser)
             sendMotor(ser, 23, 42)
