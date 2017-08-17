@@ -23,3 +23,6 @@ or
 cd /host/sisyphus/scripts
 check_and_update_arduino.sh
 ```
+
+## IP setup
+antikeimena.onthewifi.com
