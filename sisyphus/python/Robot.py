@@ -1,12 +1,13 @@
+import time
 import Queue
 import serial
-import time
 import threading
 import config_pb2
 import motor_pb2
 import sensor_pb2
 import status_pb2
 from   struct     import *
+
 
 class ReceiveThread(threading.Thread):
 
@@ -121,6 +122,7 @@ class SendThread(threading.Thread):
         self._queue = sendQueue
 
     def run(self):
+
         while True:
             command = self._queue.get()
             message_type = 0
@@ -161,6 +163,7 @@ class Robot(threading.Thread):
         self._robotSerial  = serial.Serial("/dev/tty.usbmodem1411", 9600)
         self._receiver     = ReceiveThread(self._robotSerial, self._receiveQueue)
         self._sender       = SendThread(self._robotSerial, self._sendQueue)
+        self._robot        = {}
 
     def set_speed(self, left, right):
         motor = motor_pb2.Motor()
@@ -168,15 +171,65 @@ class Robot(threading.Thread):
         motor.speed_right = right
         self._sendQueue.put(motor)
 
+    def debug(self):
+        sensor = sensor_pb2.Sensor()
+        sensor.odometry_left   = 23
+        sensor.odometry_right  = 42
+        sensor.battery_voltage = 12.23
+        sensor.temperature     = 22.22
+        sensor.ultrasonic_01   = 23
+        sensor.ultrasonic_02   = 23
+        sensor.ultrasonic_03   = 23
+        sensor.ultrasonic_04   = 23
+        sensor.ultrasonic_05   = 23
+        sensor.ultrasonic_06   = 23
+        sensor.ultrasonic_07   = 23
+        sensor.ultrasonic_08   = 23
+        sensor.ultrasonic_09   = 23
+        sensor.ultrasonic_10   = 23
+        self._receiveQueue.put(sensor)
+        status               = status_pb2.Status()
+        status.version       = 42
+        status.uptime        = 2232
+        status.sensorInError = 4
+        status.debug         = 666
+        self._receiveQueue.put(status)
+
     def run(self):
         self._receiver.start()
         self._sender.start()
+
+        while True:
+            command = self._receiveQueue.get()
+
+            if "Sensor" == command.DESCRIPTOR.name:
+                self._robot['odometry_left']   = command.odometry_left
+                self._robot['odometry_right']  = command.odometry_right
+                self._robot['battery_voltage'] = command.battery_voltage
+                self._robot['temperature']     = command.temperature
+                self._robot['ultrasonic']      = [command.ultrasonic_01,
+                                                  command.ultrasonic_02,
+                                                  command.ultrasonic_03,
+                                                  command.ultrasonic_04,
+                                                  command.ultrasonic_05,
+                                                  command.ultrasonic_06,
+                                                  command.ultrasonic_07,
+                                                  command.ultrasonic_08,
+                                                  command.ultrasonic_09,
+                                                  command.ultrasonic_10]
+
+            if "Status" == command.DESCRIPTOR.name:
+                self._robot['fimware_version'] = command.version
+                self._robot['uptime']          = command.uptime
+                self._robot['sensor_in_error'] = command.sensorInError
+                self._robot['debug']           = command.debug
 
 
 if __name__ == "__main__":
     print ("Debug")
     r = Robot()
     r.start()
-    r.set_speed(23, 42)
+    #r.debug()
     time.sleep(10)
+    print(r._robot)
 
