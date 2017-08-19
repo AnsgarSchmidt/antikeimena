@@ -3,7 +3,6 @@ import config_pb2
 import motor_pb2
 import sensor_pb2
 import status_pb2
-import binascii
 from   struct     import *
 
 # 0     -> wait
@@ -123,6 +122,17 @@ def sendMotor(ser, left, right):
 
 if __name__ == "__main__":
     with serial.Serial('/dev/ttyAMA0', 9600, timeout=10000) as ser:
+        speed = 90
+        addi  = 1
         for i in range(420):
             debugData(ser)
-            sendMotor(ser, 23, 42)
+            sendMotor(ser, speed, speed)
+            speed += addi
+
+            if speed > 180:
+                speed = 180
+                addi = -1
+
+            if speed < 0:
+                speed = 0
+                addi = 1
