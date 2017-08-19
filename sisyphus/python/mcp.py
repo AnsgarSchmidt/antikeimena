@@ -1,4 +1,5 @@
 import serial
+import time
 import config_pb2
 import motor_pb2
 import sensor_pb2
@@ -136,3 +137,8 @@ if __name__ == "__main__":
             if speed < 0:
                 speed = 0
                 addi = 1
+        sendMotor(ser, 91, 91)
+        sendMotor(ser, 91, 91)
+        sendMotor(ser, 91, 91)
+        time.sleep(2)
+        sendMotor(ser, 90, 90)
