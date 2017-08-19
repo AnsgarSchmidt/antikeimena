@@ -179,15 +179,15 @@ void uplink_checkReceive(void) {
 
       if (uplink_message_type == MOTOR_MESSAGE){
         uplink_debug = 12;
-        antikeimena_Motor motor = antikeimena_Motor_init_zero;
-        pb_istream_t stream     = pb_istream_from_buffer(uplink_receive_buffer, uplink_message_size);
-        bool status             = pb_decode(&stream, antikeimena_Motor_fields, &motor);
+        //antikeimena_Motor motor = antikeimena_Motor_init_zero;
+        //pb_istream_t stream     = pb_istream_from_buffer(uplink_receive_buffer, uplink_message_size);
+        //bool status             = pb_decode(&stream, antikeimena_Motor_fields, &motor);
 
-        if (status){
-          uplink_debug = motor.speed_left;
-        }else{
-          uplink_debug = 69;
-        }
+        //if (status){
+        //  uplink_debug = motor.speed_left;
+        //}else{
+        //  uplink_debug = 69;
+        //}
 
       }
 
