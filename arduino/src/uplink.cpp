@@ -105,6 +105,7 @@ void uplink_checkReceive(void) {
         if (c == 0x41){
             uplink_debug = 23;
             uplink_state = WAITING_FOR_N;
+            continue;
         }else{
             uplink_state = WAITING_FOR_A;
         }
@@ -115,6 +116,7 @@ void uplink_checkReceive(void) {
         if (c == 0x4E){
             uplink_debug = 24;
             uplink_state = WAITING_FOR_S;
+            continue;
         }else{
             uplink_state = WAITING_FOR_A;
         }
@@ -124,6 +126,7 @@ void uplink_checkReceive(void) {
         if (c == 0x53){
             uplink_debug = 25;
             uplink_state = WAITING_FOR_I;
+            continue;
         }else{
             uplink_state = WAITING_FOR_A;
         }
@@ -133,6 +136,7 @@ void uplink_checkReceive(void) {
         if (c == 0x49){
             uplink_debug = 26;
             uplink_state = WAITING_FOR_TYPE;
+            continue;
         }else{
             uplink_state = WAITING_FOR_A;
         }
@@ -141,11 +145,13 @@ void uplink_checkReceive(void) {
     if (uplink_state == WAITING_FOR_TYPE){
         uplink_message_type = c;
         uplink_state = WAITING_FOR_SIZE_L;
+        continue;
     }
 
     if (uplink_state == WAITING_FOR_SIZE_L){
         uplink_message_size = (uint16_t) c;
         uplink_state = WAITING_FOR_SIZE_H;
+        continue;
     }
 
     if (uplink_state == WAITING_FOR_SIZE_H){
@@ -153,6 +159,7 @@ void uplink_checkReceive(void) {
         val <<= 8;
         uplink_message_size = val & uplink_message_size;
         uplink_state = WAITING_FOR_MESSAGE;
+        continue;
     }
 
     if (uplink_state == WAITING_FOR_MESSAGE){
