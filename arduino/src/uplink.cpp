@@ -171,7 +171,20 @@ void uplink_checkReceive(void) {
   }
 
   if (uplink_message_complete){
-      uplink_debug = 99;
+
+      if (uplink_message_type == CONFIG_MESSAGE){
+      }
+
+      if (uplink_message_type == MOTOR_MESSAGE){
+          uplink_debug = 69;
+      }
+
+      if (uplink_message_type == SENSOR_MESSAGE){
+      }
+
+      if (uplink_message_type == STATUS_MESSAGE){
+      }
+
       uplink_message_complete = false;
   }
 
