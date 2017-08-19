@@ -6,15 +6,6 @@ import sensor_pb2
 import status_pb2
 from   struct     import *
 
-# 0     -> wait
-# 1     -> A 0x41
-# 2     -> N 0x4E
-# 3     -> S 0x53
-# 4     -> I 0x49
-# 5     -> MESSAGE TYPE
-# 6     -> SIZE
-# 7     -> SIZE
-# 8-end -> DATA
 
 
 def debugData(ser):
