@@ -2,11 +2,11 @@
 #include "main.h"
 #include "uplink.h"
 #include "usonic.h"
+#include "motor.h"
+#include "pinout.h"
 
 extern "C" {
     #include "battery.h"
-    #include "motor.h"
-    #include "pinout.h"
     #include "odometry.h"
 }
 

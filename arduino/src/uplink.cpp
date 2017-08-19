@@ -2,6 +2,7 @@
 #include "uplink.h"
 #include "main.h"
 #include "usonic.h"
+#include "motor.h"
 
 extern "C" {
     #include "pb.h"
@@ -170,7 +171,6 @@ void uplink_checkReceive(void) {
             }
 
             if (uplink_message_type == MOTOR_MESSAGE){
-                uplink_debug = uplink_message_size;
                 antikeimena_Motor motor = antikeimena_Motor_init_zero;
                 pb_istream_t stream     = pb_istream_from_buffer(uplink_receive_buffer, uplink_message_size);
                 bool status             = pb_decode(&stream, antikeimena_Motor_fields, &motor);
