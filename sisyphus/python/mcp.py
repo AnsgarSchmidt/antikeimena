@@ -109,11 +109,11 @@ def sendMotor(ser, left, right):
     motor.speed_left  = left
     motor.speed_right = right
     message = motor.SerializeToString()
-    ser.write(byte(0x41)) # A
-    ser.write(byte(0x4E)) # N
-    ser.write(byte(0x53)) # S
-    ser.write(byte(0x49)) # I
-    ser.write(byte(0x2))  # MOTOR
+    ser.write(bytes(0x41)) # A
+    ser.write(bytes(0x4E)) # N
+    ser.write(bytes(0x53)) # S
+    ser.write(bytes(0x49)) # I
+    ser.write(bytes(0x2))  # MOTOR
     ser.write(pack('<H', len(message)))
     ser.write(message)
     ser.flush()
