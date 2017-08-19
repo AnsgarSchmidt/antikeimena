@@ -114,7 +114,7 @@ def sendMotor(ser, left, right):
     ser.write(bytes('N')) # N
     ser.write(bytes('S')) # S
     ser.write(bytes('I')) # I
-    ser.write(bytes(2))  # MOTOR
+    ser.write("\x02")  # MOTOR
     ser.write(pack('<H', len(message)))
     ser.write(message)
     print (' '.join(hex(ord(ime)) for ime in message))
