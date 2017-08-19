@@ -13,13 +13,14 @@ extern "C" {
     #include "battery.h"
 }
 
-uplink_states uplink_state         = WAITING_FOR_A;
-uint16_t      uplink_message_size  = 0;
-uint8_t       uplink_message_type  = 0;
-uint8_t       uplink_message_index = 0;
+uplink_states uplink_state            = WAITING_FOR_A;
+uint16_t      uplink_message_size     = 0;
+uint8_t       uplink_message_type     = 0;
+uint8_t       uplink_message_index    = 0;
 uint8_t       uplink_receive_buffer[BUFFERSIZE];
 uint8_t       uplink_send_buffer[BUFFERSIZE];
-uint32_t      uplink_debug         = 0;
+uint32_t      uplink_debug            = 0;
+bool          uplink_message_complete = false;
 
 void uplink_setup(void){
   Serial1.begin(UPLINK_SPEED);
@@ -103,7 +104,6 @@ void uplink_checkReceive(void) {
 
     if (uplink_state == WAITING_FOR_A){
         if (c == 0x41){
-            uplink_debug = 23;
             uplink_state = WAITING_FOR_N;
             continue;
         }else{
@@ -114,7 +114,6 @@ void uplink_checkReceive(void) {
     if (uplink_state == WAITING_FOR_N){
 
         if (c == 0x4E){
-            uplink_debug = 24;
             uplink_state = WAITING_FOR_S;
             continue;
         }else{
@@ -124,7 +123,6 @@ void uplink_checkReceive(void) {
 
     if (uplink_state == WAITING_FOR_S){
         if (c == 0x53){
-            uplink_debug = 25;
             uplink_state = WAITING_FOR_I;
             continue;
         }else{
@@ -134,7 +132,6 @@ void uplink_checkReceive(void) {
 
     if (uplink_state == WAITING_FOR_I){
         if (c == 0x49){
-            uplink_debug = 26;
             uplink_state = WAITING_FOR_TYPE;
             continue;
         }else{
@@ -168,8 +165,14 @@ void uplink_checkReceive(void) {
 
         if(uplink_message_index > uplink_message_size){
             uplink_state = WAITING_FOR_A;
+            uplink_message_complete = true;
         }
     }
-
   }
+
+  if (uplink_message_complete){
+      uplink_debug = 99;
+      uplink_message_complete = false;
+  }
+
 }
