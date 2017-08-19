@@ -167,7 +167,6 @@ void uplink_checkReceive(void) {
 
         if(uplink_message_index > uplink_message_size){
             uplink_state = WAITING_FOR_A;
-            uplink_message_size -= 1; // We need the correct value later for decoding
             uplink_message_complete = true;
         }
     }
