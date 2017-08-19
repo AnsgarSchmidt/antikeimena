@@ -22,7 +22,6 @@ uint8_t       uplink_message_index    = 0;
 uint8_t       uplink_receive_buffer[BUFFERSIZE];
 uint8_t       uplink_send_buffer[BUFFERSIZE];
 uint32_t      uplink_debug            = 0;
-bool          uplink_message_complete = false;
 
 void uplink_setup(void){
   Serial1.begin(UPLINK_SPEED);
@@ -143,61 +142,56 @@ void uplink_checkReceive(void) {
 
     if (uplink_state == WAITING_FOR_TYPE){
         uplink_message_type = c;
-        uplink_state = WAITING_FOR_SIZE_L;
+        uplink_state        = WAITING_FOR_SIZE_L;
         continue;
     }
 
     if (uplink_state == WAITING_FOR_SIZE_L){
         uplink_message_size = (uint16_t) c;
-        uplink_state = WAITING_FOR_SIZE_H;
+        uplink_state        = WAITING_FOR_SIZE_H;
         continue;
     }
 
     if (uplink_state == WAITING_FOR_SIZE_H){
         uint16_t val = (uint16_t) c;
         val <<= 8;
-        uplink_message_size = val & uplink_message_size;
-        uplink_state = WAITING_FOR_MESSAGE;
+        uplink_message_size  = val & uplink_message_size;
+        uplink_message_index = 0;
+        uplink_state         = WAITING_FOR_MESSAGE;
         continue;
     }
 
     if (uplink_state == WAITING_FOR_MESSAGE){
-        uplink_receive_buffer[uplink_message_index] = c;
-        uplink_message_index++;
+        uplink_receive_buffer[uplink_message_index++] = c;
 
         if(uplink_message_index > uplink_message_size){
+            uplink_debug = 12;
+
+            if (uplink_message_type == CONFIG_MESSAGE){
+            }
+
+            if (uplink_message_type == MOTOR_MESSAGE){
+                //antikeimena_Motor motor = antikeimena_Motor_init_zero;
+                //pb_istream_t stream     = pb_istream_from_buffer(uplink_receive_buffer, uplink_message_size);
+                //bool status             = pb_decode(&stream, antikeimena_Motor_fields, &motor);
+
+                //if (status){
+                //  uplink_debug = motor.speed_left;
+                //}else{
+                //  uplink_debug = 69;
+                //}
+
+            }
+
+            if (uplink_message_type == SENSOR_MESSAGE){
+            }
+
+            if (uplink_message_type == STATUS_MESSAGE){
+            }
+
             uplink_state = WAITING_FOR_A;
-            uplink_message_complete = true;
         }
     }
-  }
-
-  if (uplink_message_complete){
-
-      if (uplink_message_type == CONFIG_MESSAGE){
-      }
-
-      if (uplink_message_type == MOTOR_MESSAGE){
-        uplink_debug = 12;
-        //antikeimena_Motor motor = antikeimena_Motor_init_zero;
-        //pb_istream_t stream     = pb_istream_from_buffer(uplink_receive_buffer, uplink_message_size);
-        //bool status             = pb_decode(&stream, antikeimena_Motor_fields, &motor);
-
-        //if (status){
-        //  uplink_debug = motor.speed_left;
-        //}else{
-        //  uplink_debug = 69;
-        //}
-
-      }
-
-      if (uplink_message_type == SENSOR_MESSAGE){
-      }
-
-      if (uplink_message_type == STATUS_MESSAGE){
-      }
-      uplink_message_index    = 0;
-      uplink_message_complete = false;
   }
 
 }
