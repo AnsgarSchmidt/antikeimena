@@ -110,14 +110,14 @@ def sendMotor(ser, left, right):
     motor.speed_left  = left
     motor.speed_right = right
     message = motor.SerializeToString()
-    ser.write(bytes('A')) # A
-    ser.write(bytes('N')) # N
-    ser.write(bytes('S')) # S
-    ser.write(bytes('I')) # I
-    ser.write("\x02")  # MOTOR
+    ser.write('\x41') # A
+    ser.write('\x4E') # N
+    ser.write('\x53') # S
+    ser.write('\x49') # I
+    ser.write('\x02')  # MOTOR
     ser.write(pack('<H', len(message)))
     ser.write(message)
-    print (' '.join(hex(ord(ime)) for ime in message))
+    print ("HEXDUMP:"+ ' '.join(hex(ord(ime)) for ime in message))
     ser.flush()
 
 if __name__ == "__main__":
