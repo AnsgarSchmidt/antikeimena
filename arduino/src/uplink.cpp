@@ -155,7 +155,7 @@ void uplink_checkReceive(void) {
     if (uplink_state == WAITING_FOR_SIZE_H){
         uint16_t val = (uint16_t) c;
         val <<= 8;
-        //uplink_message_size  = val & uplink_message_size;
+        uplink_message_size  = val | uplink_message_size;
         uplink_message_index = 0;
         uplink_state         = WAITING_FOR_MESSAGE;
         continue;
