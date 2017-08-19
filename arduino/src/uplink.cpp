@@ -7,8 +7,10 @@ extern "C" {
     #include "pb.h"
     #include "pb_encode.h"
     #include "pb_decode.h"
-    #include "status.pb.h"
+    #include "config.pb.h"
+    #include "motor.pb.h"
     #include "sensor.pb.h"
+    #include "status.pb.h"
     #include "odometry.h"
     #include "battery.h"
 }
@@ -176,7 +178,14 @@ void uplink_checkReceive(void) {
       }
 
       if (uplink_message_type == MOTOR_MESSAGE){
+        antikeimena_Motor motor = antikeimena_Motor_init_zero;
+        pb_istream_t stream     = pb_istream_from_buffer(uplink_receive_buffer, uplink_message_size);
+        bool status             = pb_decode(&stream, antikeimena_Motor_fields, &motor);
+        if (status){
+          uplink_debug = motor.speed_left;
+        }else{
           uplink_debug = 69;
+        }
       }
 
       if (uplink_message_type == SENSOR_MESSAGE){
