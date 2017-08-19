@@ -106,10 +106,10 @@ def debugData(ser):
         print (config)
 
 def sendMotor(ser, left, right):
-    motor = motor_pb2.Motor()
+    motor             = motor_pb2.Motor()
     motor.speed_left  = left
     motor.speed_right = right
-    message = motor.SerializeToString()
+    message           = motor.SerializeToString()
     ser.write('\x41') # A
     ser.write('\x4E') # N
     ser.write('\x53') # S
@@ -117,7 +117,8 @@ def sendMotor(ser, left, right):
     ser.write('\x02')  # MOTOR
     ser.write(pack('<H', len(message)))
     ser.write(message)
-    print ("HEXDUMP:"+ ' '.join(hex(ord(ime)) for ime in message))
+    print (motor)
+    print ("HEXDUMP:" + ' '.join(hex(ord(ime)) for ime in message))
     ser.flush()
 
 if __name__ == "__main__":
