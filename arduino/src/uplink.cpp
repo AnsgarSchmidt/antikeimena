@@ -34,7 +34,7 @@ void uplink_sendStatus(void){
     status_pb.version       = 12;
     status_pb.uptime        = millis();
     status_pb.sensorInError = 14;
-    status_pb.debug         = 32;
+    status_pb.debug         = uplink_debug;
 
     pb_ostream_t stream = pb_ostream_from_buffer(uplink_send_buffer, sizeof(uplink_send_buffer));
     pb_encode(&stream, antikeimena_Status_fields, &status_pb);
@@ -165,7 +165,8 @@ void uplink_checkReceive(void) {
         uplink_receive_buffer[uplink_message_index++] = c;
 
         if(uplink_message_index > uplink_message_size){
-            uplink_debug = uplink_message_size;
+
+            uplink_debug = 213;
 
             if (uplink_message_type == CONFIG_MESSAGE){
             }
