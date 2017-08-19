@@ -176,6 +176,7 @@ void uplink_checkReceive(void) {
                 bool status             = pb_decode(&stream, antikeimena_Motor_fields, &motor);
 
                 if (status){
+                  motor_move(motor.speed_left, motor.speed_right);
                   uplink_debug = motor.speed_left;
                 }else{
                   uplink_debug = 69;
