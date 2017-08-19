@@ -3,6 +3,7 @@ import config_pb2
 import motor_pb2
 import sensor_pb2
 import status_pb2
+import binascii
 from   struct     import *
 
 # 0     -> wait
@@ -113,9 +114,10 @@ def sendMotor(ser, left, right):
     ser.write(bytes('N')) # N
     ser.write(bytes('S')) # S
     ser.write(bytes('I')) # I
-    ser.write(bytes(0x2))  # MOTOR
+    ser.write(bytes(2))  # MOTOR
     ser.write(pack('<H', len(message)))
     ser.write(message)
+    print (' '.join(hex(ord(ime)) for ime in binascii.unhexlify(message)))
     ser.flush()
 
 if __name__ == "__main__":
