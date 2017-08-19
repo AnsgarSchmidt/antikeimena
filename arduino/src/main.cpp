@@ -57,7 +57,7 @@ void loop() {
    uplink_checkReceive();
 
    scheduler_send_status++;
-   scheduler_send_sensor++;
+   //scheduler_send_sensor++;
    scheduler_measure_ultrasonic++;
    scheduler_measure_battery++;
 }
