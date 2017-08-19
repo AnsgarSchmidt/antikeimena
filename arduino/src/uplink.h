@@ -32,7 +32,7 @@ enum uplink_message_types {
 
 #define BUFFERSIZE MAX(antikeimena_Config_size, MAX(antikeimena_Motor_size, MAX(antikeimena_Sensor_size, antikeimena_Status_size)))
 
-#define UPLINK_SPEED 115200
+#define UPLINK_SPEED 9600
 
 #define NOTSET_MESSAGE 0
 #define CONFIG_MESSAGE 1

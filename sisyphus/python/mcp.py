@@ -117,11 +117,11 @@ def sendMotor(ser, left, right):
     ser.write(bytes(2))  # MOTOR
     ser.write(pack('<H', len(message)))
     ser.write(message)
-    print (' '.join(hex(ord(ime)) for ime in binascii.unhexlify(message)))
+    print (' '.join(hex(ord(ime)) for ime in message))
     ser.flush()
 
 if __name__ == "__main__":
-    with serial.Serial('/dev/ttyAMA0', 115200, timeout=10000) as ser:
+    with serial.Serial('/dev/ttyAMA0', 9600, timeout=10000) as ser:
         for i in range(420):
             debugData(ser)
             sendMotor(ser, 23, 42)
