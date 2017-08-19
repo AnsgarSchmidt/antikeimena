@@ -19,6 +19,7 @@ uint8_t       uplink_message_type  = 0;
 uint8_t       uplink_message_index = 0;
 uint8_t       uplink_receive_buffer[BUFFERSIZE];
 uint8_t       uplink_send_buffer[BUFFERSIZE];
+uint32_t      uplink_debug         = 0;
 
 void uplink_setup(void){
   Serial1.begin(UPLINK_SPEED);
@@ -31,7 +32,7 @@ void uplink_sendStatus(void){
     status_pb.version       = 12;
     status_pb.uptime        = millis();
     status_pb.sensorInError = 14;
-    status_pb.debug         = (uint32_t)uplink_message_type;
+    status_pb.debug         = uplink_debug;
 
     pb_ostream_t stream = pb_ostream_from_buffer(uplink_send_buffer, sizeof(uplink_send_buffer));
     pb_encode(&stream, antikeimena_Status_fields, &status_pb);
@@ -102,6 +103,7 @@ void uplink_checkReceive(void) {
 
     if (uplink_state == WAITING_FOR_A){
         if (c == 0x41){
+            uplink_debug = 23;
             uplink_state = WAITING_FOR_N;
         }else{
             uplink_state = WAITING_FOR_A;
@@ -111,6 +113,7 @@ void uplink_checkReceive(void) {
     if (uplink_state == WAITING_FOR_N){
 
         if (c == 0x4E){
+            uplink_debug = 24;
             uplink_state = WAITING_FOR_S;
         }else{
             uplink_state = WAITING_FOR_A;
@@ -119,6 +122,7 @@ void uplink_checkReceive(void) {
 
     if (uplink_state == WAITING_FOR_S){
         if (c == 0x53){
+            uplink_debug = 25;
             uplink_state = WAITING_FOR_I;
         }else{
             uplink_state = WAITING_FOR_A;
@@ -127,6 +131,7 @@ void uplink_checkReceive(void) {
 
     if (uplink_state == WAITING_FOR_I){
         if (c == 0x49){
+            uplink_debug = 26;
             uplink_state = WAITING_FOR_TYPE;
         }else{
             uplink_state = WAITING_FOR_A;
