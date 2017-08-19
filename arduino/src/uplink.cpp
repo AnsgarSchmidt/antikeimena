@@ -166,12 +166,11 @@ void uplink_checkReceive(void) {
 
         if(uplink_message_index > uplink_message_size){
 
-            uplink_debug = 213;
-
             if (uplink_message_type == CONFIG_MESSAGE){
             }
 
             if (uplink_message_type == MOTOR_MESSAGE){
+                uplink_debug = 215;
                 //antikeimena_Motor motor = antikeimena_Motor_init_zero;
                 //pb_istream_t stream     = pb_istream_from_buffer(uplink_receive_buffer, uplink_message_size);
                 //bool status             = pb_decode(&stream, antikeimena_Motor_fields, &motor);
