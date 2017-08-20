@@ -1,5 +1,8 @@
 sisyphus/python/*.pyc
 sisyphus/python/__pycache__/
 arduino/lib/nanopb
-/arduino/.pioenvs/
-/arduino/.piolibdeps/
+arduino/.pioenvs/
+arduino/.piolibdeps/
+python/bin
+python/lib
+python/local
