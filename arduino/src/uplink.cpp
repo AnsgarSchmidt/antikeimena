@@ -2,20 +2,20 @@
 #include "uplink.h"
 #include "main.h"
 #include "usonic.h"
+#include "tools.h"
 #include "motor.h"
+#include "battery.h"
+#include "odometry.h"
+#include "pb.h"
+#include "pb_encode.h"
+#include "pb_decode.h"
+#include "config.pb.h"
+#include "motor.pb.h"
+#include "sensor.pb.h"
+#include "status.pb.h"
 
-extern "C" {
-    #include "pb.h"
-    #include "pb_encode.h"
-    #include "pb_decode.h"
-    #include "config.pb.h"
-    #include "motor.pb.h"
-    #include "sensor.pb.h"
-    #include "status.pb.h"
-    #include "odometry.h"
-    #include "battery.h"
-}
-
+uint32_t      uplink_status_lastrun   = 0;
+uint32_t      uplink_sensor_lastrun   = 0;
 uplink_states uplink_state            = WAITING_FOR_A;
 uint16_t      uplink_message_size     = 0;
 uint8_t       uplink_message_type     = 0;
@@ -24,8 +24,25 @@ uint8_t       uplink_receive_buffer[BUFFERSIZE];
 uint8_t       uplink_send_buffer[BUFFERSIZE];
 uint32_t      uplink_debug            = 0;
 
+extern void uplink_sendStatus(void);
+extern void uplink_sendSensor(void);
+
 void uplink_setup(void){
   Serial1.begin(UPLINK_SPEED);
+}
+
+void uplink_sendData(void){
+
+    if(must_run(uplink_status_lastrun, UPLINK_STATUS_INTERVAL)){
+        uplink_sendStatus();
+        uplink_status_lastrun = millis();
+    }
+
+    if(must_run(uplink_sensor_lastrun, UPLINK_SENSOR_INTERVAL)){
+        uplink_sendSensor();
+        uplink_sensor_lastrun = millis();
+    }
+
 }
 
 void uplink_sendStatus(void){
@@ -168,6 +185,14 @@ void uplink_checkReceive(void) {
         if(uplink_message_index > uplink_message_size){
 
             if (uplink_message_type == CONFIG_MESSAGE){
+                antikeimena_Config config = antikeimena_Config_init_zero;
+                pb_istream_t stream     = pb_istream_from_buffer(uplink_receive_buffer, uplink_message_size);
+                bool status             = pb_decode(&stream, antikeimena_Config_fields, &config);
+
+                if (status){
+                  //TODO: So something
+                }
+
             }
 
             if (uplink_message_type == MOTOR_MESSAGE){
@@ -176,18 +201,9 @@ void uplink_checkReceive(void) {
                 bool status             = pb_decode(&stream, antikeimena_Motor_fields, &motor);
 
                 if (status){
-                  motor_move(motor.speed_left, motor.speed_right);
-                  uplink_debug = motor.speed_left;
-                }else{
-                  uplink_debug = 69;
+                  motor_speed(motor.speed_left, motor.speed_right);
                 }
 
-            }
-
-            if (uplink_message_type == SENSOR_MESSAGE){
-            }
-
-            if (uplink_message_type == STATUS_MESSAGE){
             }
 
             uplink_state = WAITING_FOR_A;

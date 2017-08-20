@@ -8,6 +8,9 @@
 #include "sensor.pb.h"
 #include "status.pb.h"
 
+#define UPLINK_STATUS_INTERVAL   1000
+#define UPLINK_SENSOR_INTERVAL   100
+
 enum uplink_states {
                     WAITING_FOR_A,
                     WAITING_FOR_N,
@@ -32,7 +35,7 @@ enum uplink_message_types {
 
 #define BUFFERSIZE MAX(antikeimena_Config_size, MAX(antikeimena_Motor_size, MAX(antikeimena_Sensor_size, antikeimena_Status_size)))
 
-#define UPLINK_SPEED 9600
+#define UPLINK_SPEED 115200
 
 #define NOTSET_MESSAGE 0
 #define CONFIG_MESSAGE 1
@@ -41,8 +44,7 @@ enum uplink_message_types {
 #define STATUS_MESSAGE 4
 
 extern void uplink_setup(void);
-extern void uplink_sendStatus(void);
-extern void uplink_sendSensor(void);
+extern void uplink_sendData(void);
 extern void uplink_checkReceive(void);
 
 #endif

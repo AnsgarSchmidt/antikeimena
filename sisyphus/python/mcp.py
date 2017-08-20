@@ -113,7 +113,7 @@ def sendMotor(ser, left, right):
     ser.flush()
 
 if __name__ == "__main__":
-    with serial.Serial('/dev/ttyAMA0', 9600, timeout=10000) as ser:
+    with serial.Serial('/dev/ttyAMA0', 115200, timeout=10000) as ser:
         speed = 90
         addi  = 1
         for i in range(420):
@@ -128,8 +128,6 @@ if __name__ == "__main__":
             if speed < 0:
                 speed = 0
                 addi = 1
-        sendMotor(ser, 91, 91)
-        sendMotor(ser, 91, 91)
         sendMotor(ser, 91, 91)
         time.sleep(2)
         sendMotor(ser, 90, 90)

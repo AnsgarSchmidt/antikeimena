@@ -160,7 +160,7 @@ class Robot(threading.Thread):
         self.setDaemon(True)
         self._sendQueue    = Queue.Queue()
         self._receiveQueue = Queue.Queue()
-        self._robotSerial  = serial.Serial("/dev/tty.usbmodem1411", 9600)
+        self._robotSerial  = serial.Serial("/dev/tty.usbmodem1411", 115200)
         self._receiver     = ReceiveThread(self._robotSerial, self._receiveQueue)
         self._sender       = SendThread(self._robotSerial, self._sendQueue)
         self._robot        = {}

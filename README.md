@@ -26,3 +26,6 @@ check_and_update_arduino.sh
 
 ## IP setup
 antikeimena.onthewifi.com
+
+## Hardware
+http://www.virten.net/2017/03/vmware-homeserver-esxi-on-7th-gen-intel-nuc-kaby-lake/

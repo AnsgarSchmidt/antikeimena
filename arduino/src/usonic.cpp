@@ -1,10 +1,12 @@
 #include <Arduino.h>
 #include "usonic.h"
 #include "pinout.h"
+#include "tools.h"
 #include <Ultrasonic.h>
 
+uint32_t ultrasonic_lastrun = 0;
 uint32_t ultrasonic_distance[NUM_ULTRASONIC_SENSORS];
-uint8_t  ultrasonic_index = 0;
+uint8_t  ultrasonic_index   = 0;
 
 Ultrasonic ultrasonic_uss[NUM_ULTRASONIC_SENSORS] = {
                                   Ultrasonic(ULTRASONIC_01_TRIGGER, ULTRASONIC_01_ECHO),
@@ -23,9 +25,13 @@ void ultrasonic_setup(void){
 }
 
 void ultrasonic_measure(void){
-    ultrasonic_distance[ultrasonic_index] = ultrasonic_uss[ultrasonic_index].distanceRead();
-    ultrasonic_index++;
-    if(ultrasonic_index > (NUM_ULTRASONIC_SENSORS - 1)){
-      ultrasonic_index = 0;
+    if(must_run(ultrasonic_lastrun, ULTRASONIC_UPDATE_INTERVAL)){
+        ultrasonic_distance[ultrasonic_index] = ultrasonic_uss[ultrasonic_index].distanceRead();
+        ultrasonic_index++;
+
+        if(ultrasonic_index > (NUM_ULTRASONIC_SENSORS - 1)){
+          ultrasonic_index = 0;
+        }
+        ultrasonic_lastrun = millis();
     }
 }

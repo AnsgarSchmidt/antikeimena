@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include "odometry.h"
 #include "pinout.h"
+#include "tools.h"
 
 volatile uint16_t odometry_left_counter;
 volatile uint16_t odometry_right_counter;
