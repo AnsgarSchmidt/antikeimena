@@ -98,8 +98,8 @@ class ReceiveThread(threading.Thread):
                 try:
                     sensor = sensor_pb2.Sensor()
                     sensor.ParseFromString(message)
-                    #print (sensor)
-                    self._queue.put(sensor)
+                    print (sensor)
+                    #self._queue.put(sensor)
                 except Exception as e:
                     print "Error in Sensor parsing"
                     sys.exit(1)
