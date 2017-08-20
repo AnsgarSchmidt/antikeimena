@@ -1,3 +1,4 @@
+import sys
 import time
 import Queue
 import serial
@@ -101,7 +102,7 @@ class ReceiveThread(threading.Thread):
                     self._queue.put(sensor)
                 except Exception as e:
                     print "Error in Sensor parsing"
-                    print (e)
+                    sys.exit(1)
 
             if messagetype == 2:
                 print ("Motor:")
