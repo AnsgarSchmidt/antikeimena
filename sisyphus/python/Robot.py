@@ -2,10 +2,11 @@ import time
 import Queue
 import serial
 import threading
-import config_pb2
 import motor_pb2
+import config_pb2
 import sensor_pb2
 import status_pb2
+import ConfigParser
 from   struct     import *
 
 
@@ -158,9 +159,11 @@ class Robot(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.setDaemon(True)
+        self._config       = ConfigParser.ConfigParser()
+        self._config.read("config.ini")
         self._sendQueue    = Queue.Queue()
         self._receiveQueue = Queue.Queue()
-        self._robotSerial  = serial.Serial("/dev/tty.usbmodem1411", 115200)
+        self._robotSerial  = serial.Serial(self._config.get("SERIAL", "port"), self._config.get("SERIAL", "speed"))
         self._receiver     = ReceiveThread(self._robotSerial, self._receiveQueue)
         self._sender       = SendThread(self._robotSerial, self._sendQueue)
         self._robot        = {}
