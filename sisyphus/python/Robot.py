@@ -94,10 +94,14 @@ class ReceiveThread(threading.Thread):
 
             if messagetype == 3:
                 print ("Sensor:")
-                sensor = sensor_pb2.Sensor()
-                sensor.ParseFromString(message)
-                print (sensor)
-                self._queue.put(sensor)
+                try:
+                    sensor = sensor_pb2.Sensor()
+                    sensor.ParseFromString(message)
+                    print (sensor)
+                    self._queue.put(sensor)
+                except Exception as e:
+                    print "Error in Sensor parsing"
+                    print (e)
 
             if messagetype == 2:
                 print ("Motor:")
