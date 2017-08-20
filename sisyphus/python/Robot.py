@@ -83,6 +83,7 @@ class ReceiveThread(threading.Thread):
                     print ("size:%d" % messagelength)
                     continue
 
+            state = 0
             message = self._ser.read(messagelength)
             print ("Buffersize:%d" % len(message))
 
@@ -95,14 +96,10 @@ class ReceiveThread(threading.Thread):
 
             if messagetype == 3:
                 print ("Sensor:")
-                try:
-                    sensor = sensor_pb2.Sensor()
-                    sensor.ParseFromString(message)
-                    print (sensor)
-                    #self._queue.put(sensor)
-                except Exception as e:
-                    print "Error in Sensor parsing"
-                    sys.exit(1)
+                sensor = sensor_pb2.Sensor()
+                sensor.ParseFromString(message)
+                print (sensor)
+                self._queue.put(sensor)
 
             if messagetype == 2:
                 print ("Motor:")
