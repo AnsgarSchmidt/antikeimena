@@ -3,6 +3,7 @@ sisyphus/python/__pycache__/
 sisyphus/python/bin
 sisyphus/python/lib
 sisyphus/python/local
+/sisyphus/python/config.ini
 arduino/lib/nanopb
 arduino/.pioenvs/
 arduino/.piolibdeps/
